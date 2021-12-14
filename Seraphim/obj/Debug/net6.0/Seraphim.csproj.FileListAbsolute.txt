@@ -1,7 +1,0 @@
-D:\projects\Seraphim-Service\Seraphim\obj\Debug\net6.0\Seraphim.csproj.AssemblyReference.cache
-D:\projects\Seraphim-Service\Seraphim\obj\Debug\net6.0\Seraphim.GeneratedMSBuildEditorConfig.editorconfig
-D:\projects\Seraphim-Service\Seraphim\obj\Debug\net6.0\Seraphim.AssemblyInfoInputs.cache
-D:\projects\Seraphim-Service\Seraphim\obj\Debug\net6.0\Seraphim.AssemblyInfo.cs
-D:\projects\Seraphim-Service\Seraphim\obj\Debug\net6.0\Seraphim.csproj.CoreCompileInputs.cache
-D:\projects\Seraphim-Service\Seraphim\obj\Debug\net6.0\Seraphim.MvcApplicationPartsAssemblyInfo.cs
-D:\projects\Seraphim-Service\Seraphim\obj\Debug\net6.0\Seraphim.MvcApplicationPartsAssemblyInfo.cache
