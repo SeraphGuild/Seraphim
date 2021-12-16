@@ -1,4 +1,8 @@
+using Azure.Core;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 namespace Seraphim.Controllers
 {
@@ -28,6 +32,28 @@ namespace Seraphim.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet(Name = "SomeRoute")]
+        public async Task<object> GetSomeRoute()
+        {
+            SecretClient client = new(new Uri(""), new DefaultAzureCredential());
+            KeyVaultSecret secret = await client.GetSecretAsync("");
+
+            using SqlConnection conn = new(secret.Value);
+            conn.Open();
+
+            SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = "";
+
+            SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                return reader.GetValues(new object[reader.FieldCount]);
+            }
+
+            return Array.Empty<object>();
         }
     }
 }
