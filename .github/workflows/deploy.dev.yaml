@@ -33,3 +33,4 @@ jobs:
                         AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}
                         PROJECT_BUILD_CONFIGURATION=Release
                     push: true
+                    tags: seraphim-server:v1
