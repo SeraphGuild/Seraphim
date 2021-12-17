@@ -4,13 +4,14 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'main'
+      - main
 
 jobs:
     build:
         runs-on: ubuntu-latest
+        environment: dev
         steps:
-            -   name: 'Checkout Repository'
+            -   name: Checkout Repository
                 uses: actions/checkout@v2
 
             -   name: Login to Azure Container Registry
