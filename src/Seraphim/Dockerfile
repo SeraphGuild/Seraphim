@@ -1,6 +1,9 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+ENV AZURE_CLIENT_ID 0437c411-850d-4961-aee4-77842460a6cd
+ENV AZURE_CLIENT_SECRET 
+ENV AZURE_TENANT_ID d805168c-58f5-47d8-bf88-878e9bad98dc
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443

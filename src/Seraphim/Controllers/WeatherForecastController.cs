@@ -1,8 +1,7 @@
-using Azure.Core;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Seraphim.Controllers
 {
@@ -10,37 +9,27 @@ namespace Seraphim.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        [HttpGet(Name = "WeatherForecast")]
+        public async Task<object> Get()
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+            DefaultAzureCredential credential = new DefaultAzureCredential();
+            SecretClient client = new(new Uri("https://dscrduscekvdev.vault.azure.net/"), credential);
+            KeyVaultSecret secret = await client.GetSecretAsync("SeraphimSqlAdminPassword");
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            SqlConnectionStringBuilder connectionStringBuilder = new()
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
-
-        [HttpGet(Name = "SomeRoute")]
-        public async Task<object> GetSomeRoute()
-        {
-            SecretClient client = new(new Uri(""), new DefaultAzureCredential());
-            KeyVaultSecret secret = await client.GetSecretAsync("");
-
-            using SqlConnection conn = new(secret.Value);
+                DataSource = "tcp:dscrd-core-ceus-sqls.database.windows.net,1433",
+                InitialCatalog = "dscrd-core-sqld-dev",
+                PersistSecurityInfo = false,
+                UserID = "Seraphim",
+                Password = secret.Value,
+                MultipleActiveResultSets = false,
+                Encrypt = true,
+                TrustServerCertificate = false,
+                Authentication = SqlAuthenticationMethod.SqlPassword,
+                ConnectTimeout = 30
+        };
+            using SqlConnection conn = new(connectionStringBuilder.ConnectionString);
             conn.Open();
 
             SqlCommand cmd = conn.CreateCommand();
