@@ -28,7 +28,8 @@ namespace Seraphim.Controllers
                 TrustServerCertificate = false,
                 Authentication = SqlAuthenticationMethod.SqlPassword,
                 ConnectTimeout = 30
-        };
+            };
+            
             using SqlConnection conn = new(connectionStringBuilder.ConnectionString);
             conn.Open();
 
