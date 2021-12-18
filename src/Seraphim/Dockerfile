@@ -10,7 +10,9 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+RUN ls
 WORKDIR /src/Seraphim
+RUN ls
 RUN dotnet restore "Seraphim.csproj"
 RUN dotnet build "Seraphim.csproj" -c $PROJECT_BUILD_CONFIGURATION -o /seraphim/build
 
