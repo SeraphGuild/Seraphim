@@ -45,5 +45,11 @@ namespace Seraphim.Controllers
 
             return Array.Empty<object>();
         }
+
+        [HttpPost(Name = "WeatherForecast")]
+        public string Post()
+        {
+            return "Hello World";
+        }
     }
 }
