@@ -40,7 +40,6 @@ jobs:
                     tags: ${{ env.REGISTRY_NAME }}.azurecr.io/seraphim-service:${{ github.sha }}
     login:
         runs-on: ubuntu-latest
-        needs: login
         environment: dev
         steps:
             -   name: 'Authenticate with Azure'
