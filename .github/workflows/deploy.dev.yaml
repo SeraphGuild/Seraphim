@@ -52,4 +52,4 @@ jobs:
                 uses: azure/webapps-deploy@v2
                 with:
                     app-name: dscrd-api-usce-as-dev
-                    images: ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.REGISTRY_NAME }}/seraphim-service:${{ github.sha }}
+                    images: ${{ env.REGISTRY_NAME }}.azurecr.io/seraphim-service:${{ github.sha }}
