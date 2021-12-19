@@ -13,10 +13,10 @@ namespace Seraphim.Controllers
         public async Task<object> Get()
         {
             DefaultAzureCredential credential = new DefaultAzureCredential();
-            SecretClient client = new(new Uri("https://dscrduscekvdev.vault.azure.net/"), credential);
+            SecretClient client = new SecretClient(new Uri("https://dscrduscekvdev.vault.azure.net/"), credential);
             KeyVaultSecret secret = await client.GetSecretAsync("SeraphimSqlAdminPassword");
 
-            SqlConnectionStringBuilder connectionStringBuilder = new()
+            SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder()
             {
                 DataSource = "tcp:dscrd-core-ceus-sqls.database.windows.net,1433",
                 InitialCatalog = "dscrd-core-sqld-dev",
@@ -30,7 +30,7 @@ namespace Seraphim.Controllers
                 ConnectTimeout = 30
             };
             
-            using SqlConnection conn = new(connectionStringBuilder.ConnectionString);
+            using SqlConnection conn = new SqlConnection(connectionStringBuilder.ConnectionString);
             conn.Open();
 
             SqlCommand cmd = conn.CreateCommand();
