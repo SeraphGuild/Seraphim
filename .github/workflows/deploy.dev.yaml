@@ -27,10 +27,10 @@ jobs:
             -   name: Build and Push
                 uses: docker/build-push-action@v2
                 with:
+                    builder: ${{ steps.buildx.outputs.name }}
                     context: ./src
                     file: ./src/Seraphim/Dockerfile
                     build-args: |
-                        AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}
                         PROJECT_BUILD_CONFIGURATION=Release
                     push: true
-                    tags: seraphim-server:0.1
+                    tags: dscrdusceacrdev.azurecr.io/seraphim-server:latest
