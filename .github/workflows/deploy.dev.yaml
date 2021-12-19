@@ -27,7 +27,7 @@ jobs:
             -   name: Build and Push
                 uses: docker/build-push-action@v2
                 with:
-                    context: ./src/Seraphim
+                    context: ./src
                     file: ./src/Seraphim/Dockerfile
                     build-args: |
                         AZURE_CLIENT_SECRET=${{ secrets.AZURE_CLIENT_SECRET }}
