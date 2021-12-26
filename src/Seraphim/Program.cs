@@ -4,48 +4,66 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Seraphim.Storage;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+const string SqlServerPasswordName = "SeraphimSqlAdminPassword";
 
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<SeraphimContext>((DbContextOptionsBuilder options) =>
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+ConfigureDependencyContainer(builder.Services);
+
+WebApplication app = builder.Build();
+ConfigureWebApp(app);
+
+static void ConfigureDependencyContainer(IServiceCollection container)
+{
+    container.AddControllers();
+    container.AddEndpointsApiExplorer();
+    container.AddSwaggerGen();
+    container.AddDbContext<SeraphimContext>((DbContextOptionsBuilder options) =>
+    {
+        KeyVaultSecret sqlServerPasswordSecret = GetSecret(SqlServerPasswordName);
+        string connectionString = GetDatabaseConnectionString(sqlServerPasswordSecret);
+        options.UseSqlServer(connectionString);
+    });
+}
+
+static KeyVaultSecret GetSecret(string secretName)
 {
     DefaultAzureCredential credential = new DefaultAzureCredential();
     SecretClient client = new SecretClient(new Uri("https://dscrduscekvdev.vault.azure.net/"), credential);
-    KeyVaultSecret secret = client.GetSecret("SeraphimSqlAdminPassword");
+    return client.GetSecret(secretName);
+}
 
-    SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder()
+static string GetDatabaseConnectionString(KeyVaultSecret sqlAuthPasswordSecret)
+{
+    return new SqlConnectionStringBuilder()
     {
         DataSource = "tcp:dscrd-core-ceus-sqls.database.windows.net,1433",
         InitialCatalog = "dscrd-core-sqld-dev",
         PersistSecurityInfo = false,
         UserID = "Seraphim",
-        Password = secret.Value,
+        Password = sqlAuthPasswordSecret.Value,
         MultipleActiveResultSets = false,
         Encrypt = true,
         TrustServerCertificate = false,
         Authentication = SqlAuthenticationMethod.SqlPassword,
         ConnectTimeout = 30
-    };
-
-    options.UseSqlServer(connectionStringBuilder.ConnectionString);
-});
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    }.ConnectionString;
 }
 
-app.UseHttpsRedirection();
+static void ConfigureWebApp(WebApplication app)
+{
+    // While in a development environment, automatically apply migrations and enable swagger documentation
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
-app.UseAuthorization();
+        using IServiceScope scope = app.Services.CreateScope();
+        SeraphimContext seraphimContext = scope.ServiceProvider.GetRequiredService<SeraphimContext>();
+        seraphimContext.Database.Migrate();
+    }
 
-app.MapControllers();
-
-app.Run();
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+    app.MapControllers();
+    app.Run();
+}

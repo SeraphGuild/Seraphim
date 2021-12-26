@@ -5,7 +5,7 @@ namespace Seraphim.Storage;
 
 public class SeraphimContext : DbContext
 {
-    public DbSet<Team> Team => Set<Team>();
+    public DbSet<Team> Teams => Set<Team>();
 
     public SeraphimContext(DbContextOptions<SeraphimContext> contextOptions)
         : base(contextOptions)
