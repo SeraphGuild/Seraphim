@@ -1,4 +1,4 @@
-name: deploy dev
+name: push image and deploy dev
 
 on:
     workflow_dispatch:
@@ -7,8 +7,8 @@ on:
             - main
 
 env:
-    REGISTRY_NAME: dscrdusceacrdev
-    WEBAPP_NAME: dscrd-api-usce-as-dev
+    REGISTRY_NAME: srphmusceacr
+    WEBAPP_NAME: srphm-data-usce-as-dev
 
 jobs:
     build:
@@ -37,7 +37,7 @@ jobs:
                     build-args: |
                         PROJECT_BUILD_CONFIGURATION=Release
                     push: true
-                    tags: ${{ env.REGISTRY_NAME }}.azurecr.io/seraphim-service:${{ github.sha }}
+                    tags: ${{ env.REGISTRY_NAME }}.azurecr.io/seraphim:${{ github.sha }}
 
     deploy-and-configure:
         runs-on: ubuntu-latest
@@ -53,7 +53,7 @@ jobs:
                 uses: azure/webapps-deploy@v2
                 with:
                     app-name: ${{ env.WEBAPP_NAME }}
-                    images: ${{ env.REGISTRY_NAME }}.azurecr.io/seraphim-service:${{ github.sha }}
+                    images: ${{ env.REGISTRY_NAME }}.azurecr.io/seraphim:${{ github.sha }}
 
             -   name: Set Configuration Settings
                 uses: azure/appservice-settings@v1

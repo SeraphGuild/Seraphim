@@ -28,7 +28,7 @@ static void ConfigureDependencyContainer(IServiceCollection container)
 static KeyVaultSecret GetSecret(string secretName)
 {
     DefaultAzureCredential credential = new DefaultAzureCredential();
-    SecretClient client = new SecretClient(new Uri("https://dscrduscekvdev.vault.azure.net/"), credential);
+    SecretClient client = new SecretClient(new Uri("https://srphmuscekvdev.vault.azure.net/"), credential);
     return client.GetSecret(secretName);
 }
 
@@ -36,8 +36,8 @@ static string GetDatabaseConnectionString(KeyVaultSecret sqlAuthPasswordSecret)
 {
     return new SqlConnectionStringBuilder()
     {
-        DataSource = "tcp:dscrd-core-ceus-sqls.database.windows.net,1433",
-        InitialCatalog = "dscrd-core-sqld-dev",
+        DataSource = "tcp:srphm-data-ceus-sqls.database.windows.net,1433",
+        InitialCatalog = "srphm-data-ceus-sqld-dev",
         PersistSecurityInfo = false,
         UserID = "Seraphim",
         Password = sqlAuthPasswordSecret.Value,
