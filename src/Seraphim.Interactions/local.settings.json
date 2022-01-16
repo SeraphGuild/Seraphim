@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "BotPublicKey": "652a8c8ee06eae4302b192b9f917794090520fa7bcd29e83f14d24c177e721fa",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=srphmbotuscestgdev;AccountKey=ty5kt9QBIVUXZe2c2beVTI6M9krh97uELO9bDH44V0fzNDa7KuDNqVBYMnFNsva5cmAKmQn9jf8XSmoG1M7z1A==;BlobEndpoint=https://srphmbotuscestgdev.blob.core.windows.net/;TableEndpoint=https://srphmbotuscestgdev.table.core.windows.net/;QueueEndpoint=https://srphmbotuscestgdev.queue.core.windows.net/;FileEndpoint=https://srphmbotuscestgdev.file.core.windows.net/",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  }
+}

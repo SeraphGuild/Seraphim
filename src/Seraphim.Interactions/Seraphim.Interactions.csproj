@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <DockerfileBuildArguments Condition="'$(Configuration)' == 'Debug'">--build-arg PROJECT_BUILD_CONFIGURATION=Debug</DockerfileBuildArguments>
+        <DockerfileBuildArguments Condition="'$(Configuration)' == 'Release'">--build-arg PROJECT_BUILD_CONFIGURATION=Release</DockerfileBuildArguments>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="Seraphim.Data\**" />
+        <Content Remove="Seraphim.Data\**" />
+        <EmbeddedResource Remove="Seraphim.Data\**" />
+        <None Remove="Seraphim.Data\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="host.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="host.json">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+        <PackageReference Include="Sodium.Core" Version="1.2.3" />
+    </ItemGroup>
+</Project>

@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <DockerfileRunEnvironmentFiles Condition="'$(Configuration)' == 'Debug'">local.env</DockerfileRunEnvironmentFiles>
+        <DockerfileBuildArguments Condition="'$(Configuration)' == 'Debug'">--build-arg PROJECT_BUILD_CONFIGURATION=Debug</DockerfileBuildArguments>
+        <DockerfileBuildArguments Condition="'$(Configuration)' == 'Release'">--build-arg PROJECT_BUILD_CONFIGURATION=Release</DockerfileBuildArguments>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>4ec168ac-5dab-44b5-b32a-97bbde7cdd4f</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Remove="Seraphim.Data\**" />
+        <Content Remove="Seraphim.Data\**" />
+        <EmbeddedResource Remove="Seraphim.Data\**" />
+        <None Remove="Seraphim.Data\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Azure.Core" Version="1.21.0" />
+        <PackageReference Include="Azure.Identity" Version="1.5.0" />
+        <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.2.0" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+</Project>
