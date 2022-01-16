@@ -25,7 +25,7 @@
 
     <ItemGroup>
       <Content Include="host.json">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
 
