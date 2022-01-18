@@ -1,23 +1,23 @@
-namespace Seraphim.DiscordInteractionAck
-{
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Azure.WebJobs;
-    using Microsoft.Azure.WebJobs.Extensions.Http;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.Logging;
-    using Newtonsoft.Json;
-    using System.Text;
-    using Sodium;
-    using Microsoft.Extensions.Primitives;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+using Sodium;
+using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
-    public static class Interactions
+namespace Seraphim.InteractionAcknowledgement
+{
+    public static class Functions
     {
-        [FunctionName("Interactions")]
+        [FunctionName("Acknowledge")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             string BotPublicKey = Environment.GetEnvironmentVariable("BotPublicKey") ?? string.Empty;
