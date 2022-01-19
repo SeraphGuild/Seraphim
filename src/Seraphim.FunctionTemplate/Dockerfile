@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR app
-COPY ./Seraphim.FunctionTemplate /app
+COPY ./Seraphim.TeamManagement /app
 RUN dotnet publish *.csproj --output /home/site/wwwroot
 
 FROM mcr.microsoft.com/azure-functions/dotnet:4

@@ -1,4 +1,4 @@
-namespace $safeprojectname$
+namespace Seraphim.TeamManagement
 {
     using System.IO;
     using System.Threading.Tasks;
