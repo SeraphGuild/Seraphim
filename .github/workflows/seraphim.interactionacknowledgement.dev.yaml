@@ -1,0 +1,15 @@
+name: Deploy Seraphim.Data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@master
+    with:
+      domain: InteractionAcknowledgement
+      webappName: srphm-ack-usce-as-dev
+      appSettings: ${{ secrets.ACK_APP_SETTINGS }}

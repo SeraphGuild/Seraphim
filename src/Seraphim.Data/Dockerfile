@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG PROJECT_BUILD_CONFIGURATION
 WORKDIR app
 COPY ./Seraphim.Data /app
-RUN dotnet publish Seraphim.Data.csproj -c $PROJECT_BUILD_CONFIGURATION
+RUN dotnet publish *.csproj -c $PROJECT_BUILD_CONFIGURATION
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 EXPOSE 80

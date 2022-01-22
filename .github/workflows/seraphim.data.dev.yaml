@@ -1,0 +1,15 @@
+name: Deploy Seraphim.Data
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@master
+    with:
+      domain: Data
+      webappName: srphm-data-usce-as-dev
+      appSettings: ${{ secrets.DATA_APP_SETTINGS }}

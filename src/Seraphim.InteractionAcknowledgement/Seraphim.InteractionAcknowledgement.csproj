@@ -1,4 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DockerfileRunEnvironmentFiles>local.env</DockerfileRunEnvironmentFiles>
+        <DockerfileBuildArguments>--build-arg PROJECT_BUILD_CONFIGURATION=Debug</DockerfileBuildArguments>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DockerfileBuildArguments>--build-arg PROJECT_BUILD_CONFIGURATION=Release</DockerfileBuildArguments>
+    </PropertyGroup>
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>v4</AzureFunctionsVersion>

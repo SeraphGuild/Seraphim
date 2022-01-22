@@ -1,0 +1,36 @@
+name: build image
+
+on:
+  workflow_call:
+    inputs:
+      domain:
+        required: true
+        type: string
+      webappName:
+        required: true
+        type: string
+      environment:
+        required: false
+        type: string
+        default: dev
+    secrets:
+      appSettings:
+        required: true
+
+jobs:
+  build:
+    uses: SeraphGuild/Seraphim/.github/workflows/buildimage.yaml@master
+    with:
+      domain: ${{ inputs.domain }}
+      webappName: ${{ inputs.webappName }}
+  deploy:
+    uses: SeraphGuild/Seraphim/.github/workflows/deployimage.yaml@master
+    with:
+      webappName: ${{ inputs.webappName }}
+      environment: ${{ inputs.environment }}
+  configure:
+    uses: SeraphGuild/Seraphim/.github/workflows/configurewebapp.yaml@master
+    with:
+      webappName: ${{ inputs.webappName }}
+      environment: ${{ inputs.environment }}
+      appSettings: ${{ secrets.appSettings }}

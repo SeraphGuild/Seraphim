@@ -1,18 +1,18 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
-using Sodium;
-using System;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Seraphim.InteractionAcknowledgement
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Azure.WebJobs;
+    using Microsoft.Azure.WebJobs.Extensions.Http;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Primitives;
+    using Newtonsoft.Json;
+    using Sodium;
+    using System;
+    using System.IO;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public static class Functions
     {
         [FunctionName("Acknowledge")]
@@ -20,7 +20,7 @@ namespace Seraphim.InteractionAcknowledgement
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
-            string BotPublicKey = Environment.GetEnvironmentVariable("BotPublicKey") ?? string.Empty;
+            string BotPublicKey = Environment.GetEnvironmentVariable("BOT_PUBLIC_KEY") ?? string.Empty;
 
             if (req.Headers.TryGetValue("X-Signature-Ed25519", out StringValues signature) &&
                 req.Headers.TryGetValue("X-Signature-Timestamp", out StringValues timestamp))
