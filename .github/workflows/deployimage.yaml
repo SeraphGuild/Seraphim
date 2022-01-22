@@ -3,7 +3,7 @@ name: Deploy Docker Based Web App
 on:
   workflow_call:
     inputs:
-      webappName:
+      webAppName:
         required: true
         type: string
       environment:
@@ -27,5 +27,5 @@ jobs:
       # - name: Deploy to Azure Web App
       #   uses: azure/webapps-deploy@v2
       #   with:
-      #     app-name: ${{ inputs.webappName }}
+      #     app-name: ${{ inputs.webAppName }}
       #     images: ${{ env.registryName }}.azurecr.io/seraphim:${{ github.sha }}
