@@ -1,4 +1,4 @@
-name: build image
+name: Configure Web App
 
 on:
   workflow_call:

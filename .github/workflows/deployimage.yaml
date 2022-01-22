@@ -1,4 +1,4 @@
-name: build image
+name: Deploy Docker Based Web App
 
 on:
   workflow_call:

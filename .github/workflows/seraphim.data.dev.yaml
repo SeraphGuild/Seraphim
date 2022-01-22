@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@master
+    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
     with:
       domain: Data
       webappName: srphm-data-usce-as-dev

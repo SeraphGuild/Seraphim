@@ -1,4 +1,4 @@
-name: build image
+name: Build, Deploy, and Configure Docker Based Web App
 
 on:
   workflow_call:
@@ -19,17 +19,17 @@ on:
 
 jobs:
   build:
-    uses: SeraphGuild/Seraphim/.github/workflows/buildimage.yaml@master
+    uses: SeraphGuild/Seraphim/.github/workflows/buildimage.yaml@main
     with:
       domain: ${{ inputs.domain }}
       webappName: ${{ inputs.webappName }}
   deploy:
-    uses: SeraphGuild/Seraphim/.github/workflows/deployimage.yaml@master
+    uses: SeraphGuild/Seraphim/.github/workflows/deployimage.yaml@main
     with:
       webappName: ${{ inputs.webappName }}
       environment: ${{ inputs.environment }}
   configure:
-    uses: SeraphGuild/Seraphim/.github/workflows/configurewebapp.yaml@master
+    uses: SeraphGuild/Seraphim/.github/workflows/configurewebapp.yaml@main
     with:
       webappName: ${{ inputs.webappName }}
       environment: ${{ inputs.environment }}

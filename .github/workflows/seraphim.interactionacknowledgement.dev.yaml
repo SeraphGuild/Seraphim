@@ -1,4 +1,4 @@
-name: Deploy Seraphim.Data
+name: Deploy Seraphim.InteractionAcknowledgement
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@master
+    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
     with:
       domain: InteractionAcknowledgement
       webappName: srphm-ack-usce-as-dev
