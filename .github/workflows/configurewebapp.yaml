@@ -3,10 +3,10 @@ name: Configure Web App
 on:
   workflow_call:
     inputs:
-      webAppName:
+      WEB_APP_NAME:
         required: true
         type: string
-      environment:
+      ENVIRONMENT:
         required: true
         type: string
     secrets:
@@ -20,7 +20,7 @@ jobs:
   configure:
     runs-on: ubuntu-latest
     needs: build
-    environment: ${{ inputs.environment }}
+    ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
     steps:
       - name: Authenticate with Azure
         uses: azure/login@v1
@@ -30,5 +30,5 @@ jobs:
       - name: Set Configuration Settings
         uses: azure/appservice-settings@v1
         with:
-          app-name: ${{ inputs.webAppName }}
+          app-name: ${{ inputs.WEB_APP_NAME }}
           app-settings-json: ${{ secrets.appSettings }}

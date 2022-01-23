@@ -3,7 +3,7 @@ name: Build Docker Image
 on:
   workflow_call:
     inputs:
-      domain:
+      DOMAIN:
         required: true
         type: string
 
@@ -13,7 +13,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: dev
+    ENVIRONMENT: dev
     steps:
       - name: Checkout Repositorya
         uses: actions/checkout@v2
@@ -33,6 +33,6 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./src
-          file: ./src/Seraphim.{{ inputs.domain }}/Dockerfile
+          file: ./src/Seraphim.{{ inputs.DOMAIN }}/Dockerfile
           push: true
-          tags: ${{ env.registryName }}.azurecr.io/Seraphim.{{ inputs.domain }}:${{ github.sha }}
+          tags: ${{ env.registryName }}.azurecr.io/Seraphim.{{ inputs.DOMAIN }}:${{ github.sha }}

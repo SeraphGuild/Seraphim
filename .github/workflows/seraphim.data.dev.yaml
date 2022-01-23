@@ -7,24 +7,27 @@ on:
       - main
 
 env:
-  environment: dev
-  webAppName: srphm-data-usce-as-dev
-  domain: Data
+  ENVIRONMENT: dev
+  WEB_APP_NAME: srphm-data-usce-as-dev
+  DOMAIN: Data
 
 jobs:
   build:
     uses: SeraphGuild/Seraphim/.github/workflows/buildimage.yaml@main
     with:
-      domain: ${{ env.domain }}
-      webAppName: ${{ env.webAppName }}
-  deploy:
-    uses: SeraphGuild/Seraphim/.github/workflows/deployimage.yaml@main
-    with:
-      webAppName: ${{ env.webAppName }}
-      environment: ${{ env.environment }}
+      DOMAIN: ${{ env.DOMAIN }}
+      WEB_APP_NAME: ${{ env.WEB_APP_NAME }}
+  # deploy:
+  #   needs: build
+  #   uses: SeraphGuild/Seraphim/.github/workflows/deployimage.yaml@main
+  #   with:
+  #     WEB_APP_NAME: ${{ env.WEB_APP_NAME }}
+  #     ENVIRONMENT: ${{ env.ENVIRONMENT }}
   configure:
+    # needs: deploy
     uses: SeraphGuild/Seraphim/.github/workflows/configurewebapp.yaml@main
     with:
-      webAppName: ${{ env.webAppName }}
-      environment: ${{ env.environment }}
+      WEB_APP_NAME: ${{ env.WEB_APP_NAME }}
+      ENVIRONMENT: ${{ env.ENVIRONMENT }}
+    secrets:
       appSettings: ${{ secrets.DATA_APP_SETTINGS }}
