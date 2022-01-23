@@ -7,5 +7,7 @@
 **/.vscode
 **/*.*proj.user
 **/Dockerfile*
+**/bin/
+**/ojb/
 LICENSE
 README.md
