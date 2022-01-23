@@ -69,11 +69,10 @@ jobs:
           creds: ${{ secrets.azureCreds }}
 
       - name: Deploy to Azure Web App
-        if: ${{ false == true }}
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ inputs.webAppName }}
-          images: ${{ env.registryName }}.azurecr.io/seraphim:${{ github.sha }}
+          images: ${{ env.registryName }}.azurecr.io/seraphim.${{ steps.string.outputs.lowercase }}:${{ github.sha }}
   configure:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
