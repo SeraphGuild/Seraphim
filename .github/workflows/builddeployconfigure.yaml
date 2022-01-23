@@ -55,6 +55,7 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./src
           file: ./src/Seraphim.${{ inputs.domain }}/Dockerfile
+          build-args: PROJECT_BUILD_CONFIGURATION=Release
           push: true
           tags: ${{ env.registryName }}.azurecr.io/seraphim.${{ steps.string.outputs.lowercase }}:${{ github.sha }}
   deploy:
