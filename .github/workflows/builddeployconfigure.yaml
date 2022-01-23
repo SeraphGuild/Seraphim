@@ -40,9 +40,11 @@ jobs:
           password: ${{ secrets.containerRegistryPassword }}
 
       - name: Set up Docker Buildx
+        id: buildx
         uses: docker/setup-buildx-action@v1
 
       - name: Lowercase domain
+        id: string
         uses: ASzc/change-string-case-action@v2
         with:
           string: ${{ inputs.domain }}
