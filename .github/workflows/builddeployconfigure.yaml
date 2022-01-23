@@ -47,9 +47,9 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: ./src
-          file: ./src/Seraphim.{{ inputs.domain }}/Dockerfile
+          file: ./src/Seraphim.${{ inputs.domain }}/Dockerfile
           push: true
-          tags: ${{ env.registryName }}.azurecr.io/Seraphim.{{ inputs.domain }}:${{ github.sha }}
+          tags: ${{ env.registryName }}.azurecr.io/Seraphim.${{ inputs.domain }}:${{ github.sha }}
   deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
