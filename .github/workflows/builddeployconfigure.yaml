@@ -82,7 +82,7 @@ jobs:
       - name: Authenticate with Azure
         uses: azure/login@v1
         with: 
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.azureCreds }}
 
       - name: Set Configuration Settings
         uses: azure/appservice-settings@v1
