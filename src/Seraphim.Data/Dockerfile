@@ -8,9 +8,9 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG PROJECT_BUILD_CONFIGURATION
 WORKDIR /src
 COPY ["Seraphim.Data/Seraphim.Data.csproj", "Seraphim.Data/"]
-RUN dotnet restore "Seraphim.Data.New/Seraphim.Data.csproj"
+RUN dotnet restore "Seraphim.Data/Seraphim.Data.csproj"
 COPY . .
-WORKDIR "/src/Seraphim.Data.New"
+WORKDIR "/src/Seraphim.Data"
 RUN dotnet build "Seraphim.Data.csproj" -c $PROJECT_BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
