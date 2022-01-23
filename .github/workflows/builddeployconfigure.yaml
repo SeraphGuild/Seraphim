@@ -1,0 +1,79 @@
+name: Build Deploy and Configure Docker Based Webapp
+
+on:
+  workflow_call:
+    inputs:
+      domain:
+        required: true
+        type: string
+      webAppName:
+        required: true
+        type: string
+      environment:
+        required: false
+        type: string
+        default: dev
+    secrets:
+      appSettings:
+        required: true
+
+env:
+  registryName: srphmusceacr
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout Repositorya
+        uses: actions/checkout@v2
+
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.registryName }}.azurecr.io
+          username: ${{ env.registryName }}
+          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          context: ./src
+          file: ./src/Seraphim.{{ inputs.domain }}/Dockerfile
+          push: true
+          tags: ${{ env.registryName }}.azurecr.io/Seraphim.{{ inputs.domain }}:${{ github.sha }}
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    needs: build
+    steps:
+      - name: Authenticate with Azure
+        uses: azure/login@v1
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure Web App
+        if: ${{ false == true }}
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ inputs.webAppName }}
+          images: ${{ env.registryName }}.azurecr.io/seraphim:${{ github.sha }}
+  configure:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    needs: deploy
+    steps:
+      - name: Authenticate with Azure
+        uses: azure/login@v1
+        with: 
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set Configuration Settings
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: ${{ inputs.webAppName }}
+          app-settings-json: ${{ secrets.appSettings }}

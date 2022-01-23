@@ -6,28 +6,13 @@ on:
     branches:
       - main
 
-env:
-  ENVIRONMENT: dev
-  WEB_APP_NAME: srphm-ack-usce-as-dev
-  DOMAIN: InteractionAcknowledgement
-
 jobs:
-  build:
-    uses: SeraphGuild/Seraphim/.github/workflows/buildimage.yaml@main
-    with:
-      DOMAIN: ${{ env.DOMAIN }}
-      WEB_APP_NAME: ${{ env.WEB_APP_NAME }}
-  # deploy:
-  #   uses: SeraphGuild/Seraphim/.github/workflows/deployimage.yaml@main
-  #   needs: build
-  #   with:
-  #     WEB_APP_NAME: ${{ env.WEB_APP_NAME }}
-  #     ENVIRONMENT: ${{ inputs.ENVIRONMENT }}
-  configure:
-    uses: SeraphGuild/Seraphim/.github/workflows/configurewebapp.yaml@main
-    # needs: deploy
-    with:
-      WEB_APP_NAME: ${{ env.WEB_APP_NAME }}
-      ENVIRONMENT: ${{ env.ENVIRONMENT }}
-    secrets:
-      appSettings: ${{ secrets.ACK_APP_SETTINGS }}
+  builddeployconfigure:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
+        with:
+          domain: InteractionAcknowledgement
+          webAppName: srphm-ack-usce-as-dev
+          appSettings: ${{ secrets.ACK_APP_SETTINGS }}
