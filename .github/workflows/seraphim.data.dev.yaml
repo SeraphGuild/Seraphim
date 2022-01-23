@@ -14,3 +14,5 @@ jobs:
       webAppName: srphm-data-usce-as-dev
     secrets:
       appSettings: ${{ secrets.DATA_APP_SETTINGS }}
+      containerRegistryPassword: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+      azureCreds: ${{ secrets.AZURE_CREDENTIALS }}

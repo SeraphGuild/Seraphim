@@ -16,6 +16,10 @@ on:
     secrets:
       appSettings:
         required: true
+      azureCreds:
+        required: true
+      containerRegistryPassword:
+        required: true
 
 env:
   registryName: srphmusceacr
@@ -25,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - name: Checkout Repositorya
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Login to Azure Container Registry
@@ -33,7 +37,7 @@ jobs:
         with:
           registry: ${{ env.registryName }}.azurecr.io
           username: ${{ env.registryName }}
-          password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+          password: ${{ secrets.containerRegistryPassword }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -54,7 +58,7 @@ jobs:
       - name: Authenticate with Azure
         uses: azure/login@v1
         with: 
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.azureCreds }}
 
       - name: Deploy to Azure Web App
         if: ${{ false == true }}
