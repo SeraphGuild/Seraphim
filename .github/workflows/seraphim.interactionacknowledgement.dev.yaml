@@ -10,7 +10,7 @@ jobs:
   builddeployconfigure:
     uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
     with:
-      domain: InteractionAcknowledgement
+      domain: interactionacknowledgement
       webAppName: srphm-ack-usce-as-dev
     secrets:
       appSettings: ${{ secrets.DATA_APP_SETTINGS }}
