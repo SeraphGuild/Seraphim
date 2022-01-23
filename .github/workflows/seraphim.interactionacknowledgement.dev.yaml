@@ -11,7 +11,7 @@ jobs:
     uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
     with:
       domain: InteractionAcknowledgement
-      webAppName: srphm-ack-usce-as-dev
+      webAppName: srphm-ack-usce-func-dev
     secrets:
       appSettings: ${{ secrets.DATA_APP_SETTINGS }}
       containerRegistryPassword: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
