@@ -13,6 +13,6 @@ jobs:
       domain: InteractionAcknowledgement
       webAppName: srphm-ack-usce-func-dev
     secrets:
-      appSettings: ${{ secrets.DATA_APP_SETTINGS }}
+      appSettings: ${{ secrets.ACK_APP_SETTINGS }}
       containerRegistryPassword: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
       azureCreds: ${{ secrets.AZURE_CREDENTIALS }}
