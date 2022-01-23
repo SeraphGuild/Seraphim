@@ -45,12 +45,9 @@ namespace Seraphim.InteractionAcknowledgement
                         });
                     }
                 }
-
-                log.LogWarning("Unable to validate result");
-                return new UnauthorizedResult();
             }
 
-            log.LogWarning("'X-Signature-Ed25519' and 'X-Signature-Timestamp' headers must be provided");
+            log.LogWarning("Unable to validate result");
             return new UnauthorizedResult();
         }
     }
