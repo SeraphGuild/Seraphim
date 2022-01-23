@@ -68,6 +68,12 @@ jobs:
         with: 
           creds: ${{ secrets.azureCreds }}
 
+      - name: Lowercase domain
+        id: string
+        uses: ASzc/change-string-case-action@v2
+        with:
+          string: ${{ inputs.domain }}
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
