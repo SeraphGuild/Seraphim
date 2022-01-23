@@ -5,7 +5,8 @@ COPY ./Seraphim.Data /app
 RUN dotnet publish *.csproj -c $PROJECT_BUILD_CONFIGURATION
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
+WORKDIR /app
 EXPOSE 80
 EXPOSE 443
-COPY --from=build ./bin .
-ENTRYPOINT ["dotnet", "Seraphim.Data.dll"]
+COPY --from=build ./app .
+ENTRYPOINT ["dotnet", "bin/net6.0/Seraphim.Data.dll"]
