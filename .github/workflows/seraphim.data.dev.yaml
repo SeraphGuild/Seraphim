@@ -8,11 +8,9 @@ on:
 
 jobs:
   builddeployconfigure:
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
-        with:
-          domain: Data
-          webAppName: srphm-data-usce-as-dev
-          appSettings: ${{ secrets.DATA_APP_SETTINGS }}
+    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
+    with:
+      domain: Data
+      webAppName: srphm-data-usce-as-dev
+    secrets:
+      appSettings: ${{ secrets.DATA_APP_SETTINGS }}

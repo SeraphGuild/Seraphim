@@ -8,11 +8,9 @@ on:
 
 jobs:
   builddeployconfigure:
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
-        with:
-          domain: InteractionAcknowledgement
-          webAppName: srphm-ack-usce-as-dev
-          appSettings: ${{ secrets.ACK_APP_SETTINGS }}
+    uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
+    with:
+      domain: InteractionAcknowledgement
+      webAppName: srphm-ack-usce-as-dev
+    secrets:
+      appSettings: ${{ secrets.ACK_APP_SETTINGS }}
