@@ -25,36 +25,29 @@ namespace Seraphim.InteractionAcknowledgement
             if (req.Headers.TryGetValue("X-Signature-Ed25519", out StringValues signature) &&
                 req.Headers.TryGetValue("X-Signature-Timestamp", out StringValues timestamp))
             {
-                if (req.Body != null && req.Body.CanRead)
+                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+
+                bool isValid = PublicKeyAuth.VerifyDetached(
+                    Convert.FromHexString(signature),
+                    Encoding.UTF8.GetBytes(timestamp + requestBody),
+                    Convert.FromHexString(BotPublicKey));
+
+                if (isValid)
                 {
-                    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                    log.LogInformation($"request body: {requestBody}");
+                    dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-                    bool isValid = PublicKeyAuth.VerifyDetached(
-                        Convert.FromHexString(signature),
-                        Encoding.UTF8.GetBytes(timestamp + requestBody),
-                        Convert.FromHexString(BotPublicKey));
-
-                    if (isValid)
+                    if (data.type == 1)
                     {
-                        dynamic data = JsonConvert.DeserializeObject(requestBody);
-
-                        if (data.type == 1)
+                        log.LogInformation("acknowing discord validation request");
+                        return new OkObjectResult(new
                         {
-                            log.LogInformation("acknowing discord validation request");
-                            return new OkObjectResult(new
-                            {
-                                type = 1
-                            });
-                        }
+                            type = 1
+                        });
                     }
-
-                    log.LogWarning("Unable to validate result");
-                    return new UnauthorizedResult();
                 }
 
-                log.LogWarning("No body provided in the given request.");
-                return new BadRequestResult();
+                log.LogWarning("Unable to validate result");
+                return new UnauthorizedResult();
             }
 
             log.LogWarning("'X-Signature-Ed25519' and 'X-Signature-Timestamp' headers must be provided");
