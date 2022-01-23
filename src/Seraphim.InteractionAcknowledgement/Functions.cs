@@ -17,7 +17,7 @@ namespace Seraphim.InteractionAcknowledgement
     {
         [FunctionName("Acknowledge")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string BotPublicKey = Environment.GetEnvironmentVariable("BOT_PUBLIC_KEY") ?? string.Empty;
@@ -28,6 +28,7 @@ namespace Seraphim.InteractionAcknowledgement
                 if (req.Body != null && req.Body.CanRead)
                 {
                     string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                    log.LogInformation($"request body: {requestBody}");
 
                     bool isValid = PublicKeyAuth.VerifyDetached(
                         Convert.FromHexString(signature),
