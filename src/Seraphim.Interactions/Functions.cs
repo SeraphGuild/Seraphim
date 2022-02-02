@@ -1,4 +1,4 @@
-namespace Seraphim.InteractionAcknowledgement
+namespace Seraphim.InteractionGateway
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ namespace Seraphim.InteractionAcknowledgement
 
     public static class Functions
     {
-        [FunctionName("Acknowledge")]
+        [FunctionName("Interaction")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
