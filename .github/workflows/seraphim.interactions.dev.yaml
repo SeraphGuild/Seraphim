@@ -1,4 +1,4 @@
-name: Deploy Seraphim.InteractionAcknowledgement
+name: Deploy Seraphim.Interactions
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ jobs:
   builddeployconfigure:
     uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
     with:
-      domain: InteractionAcknowledgement
+      domain: Interactions
       webAppName: srphm-ack-usce-func-dev
     secrets:
       appSettings: ${{ secrets.ACK_APP_SETTINGS }}
