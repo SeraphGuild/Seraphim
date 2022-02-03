@@ -3,7 +3,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "httpPort": 8002,
+      "httpPort": 8003,
       "useSSL": false
     }
   }
