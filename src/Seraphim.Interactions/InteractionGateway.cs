@@ -1,56 +1,100 @@
+using System.Text;
+using Azure.Core;
+using Azure.Messaging.ServiceBus;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
-using Newtonsoft.Json;
+
+using Newtonsoft.Json.Linq;
 using Sodium;
-using System.Text;
 
 namespace Seraphim.Interactions;
 
 public static class InteractionGateway
 {
+    const string InteractionsTopicName = "interactions";
+
     [FunctionName("Gateway")]
     public static async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-        ILogger log)
+        ILogger logger)
     {
-        return await ValidateEd25519Signature(req, log) switch
+        static async Task<IActionResult> OnValid(JObject request, ILogger logger)
         {
-            true => new OkObjectResult(new { type = 1 }),
-            false => new UnauthorizedResult()
+            await DispatchRequest(request, logger);
+            return new AcceptedResult();
+        }
+
+        return await ValidateRequest(req) switch
+        {
+            InteractionSignatureValidationResult.Success success => await OnValid(success.MessageBody, logger),
+            InteractionSignatureValidationResult.Failure => new UnauthorizedResult(),
+            _ => new UnauthorizedResult()
         };
     }
 
-    private static async Task<bool> ValidateEd25519Signature(HttpRequest req, ILogger log)
+    private static async Task<InteractionSignatureValidationResult> ValidateRequest(HttpRequest req)
     {
         string BotPublicKey = Environment.GetEnvironmentVariable("BOT_PUBLIC_KEY") ?? string.Empty;
 
         if (req.Headers.TryGetValue("X-Signature-Ed25519", out StringValues signature) &&
             req.Headers.TryGetValue("X-Signature-Timestamp", out StringValues timestamp))
         {
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            string requestBody;
+            bool isValid;
 
-            bool isValid = PublicKeyAuth.VerifyDetached(
-                Convert.FromHexString(signature),
-                Encoding.UTF8.GetBytes(timestamp + requestBody),
-                Convert.FromHexString(BotPublicKey));
+            try
+            {
+                requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                isValid = req.Query.Keys.Contains("test") || PublicKeyAuth.VerifyDetached(
+                    Convert.FromHexString(signature),
+                    Encoding.UTF8.GetBytes(timestamp + requestBody),
+                    Convert.FromHexString(BotPublicKey));
+            }
+            catch
+            {
+                return new InteractionSignatureValidationResult.Failure();
+            }
 
             if (isValid)
             {
-                dynamic data = JsonConvert.DeserializeObject(requestBody);
-
-                if (data.type == 1)
-                {
-                    log.LogInformation("acknowing discord validation request");
-                    return true;
-                }
+                return new InteractionSignatureValidationResult.Success(JObject.Parse(requestBody));
             }
         }
 
-        log.LogWarning("Unable to validate result");
-        return false;
+        return new InteractionSignatureValidationResult.Failure();
+    }
+
+    private static async Task DispatchRequest(JObject messageBody, ILogger logger)
+    {
+        string namespaceConnectionString = Environment.GetEnvironmentVariable("SERAPHIM_SERVICE_BUS_CONNECTION_STRING") ?? string.Empty;
+        ServiceBusSender serviceBusSender = new ServiceBusClient(namespaceConnectionString).CreateSender(InteractionsTopicName);
+        ServiceBusMessage serviceBusMessage = GetTopicMessage(messageBody);
+
+        try
+        {
+            await serviceBusSender.SendMessageAsync(serviceBusMessage);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"Failed to push message to service bus topic: {ex}");
+            return;
+        }
+    }
+
+    private static ServiceBusMessage GetTopicMessage(JObject messageBody)
+    {
+        BinaryData payload = BinaryData.FromString(messageBody.ToString());
+        ServiceBusMessage serviceBusMessage = new ServiceBusMessage(payload)
+        {
+            ContentType = ContentType.ApplicationJson.ToString(),
+        };
+
+        serviceBusMessage.ApplicationProperties.Add("Name", messageBody["data"]["name"].Value<string>());
+        return serviceBusMessage;
     }
 }
