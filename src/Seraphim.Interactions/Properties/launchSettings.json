@@ -1,11 +1,9 @@
 {
+  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
     "Docker": {
       "commandName": "Docker",
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "useSSL": true,
-      "httpPort": 8002,
-      "sslPort": 5002
+      "httpPort": 2080
     }
   }
 }

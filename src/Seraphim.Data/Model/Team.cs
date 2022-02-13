@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Seraphim.Model;
+namespace Seraphim.Data;
 
 [Table("Team")]
 public class Team

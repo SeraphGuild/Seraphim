@@ -2,7 +2,8 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Seraphim.Storage;
+
+using Seraphim.Data;
 
 const string SqlServerPasswordName = "SeraphimSqlAdminPassword";
 

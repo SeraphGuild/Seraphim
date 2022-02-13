@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Seraphim.Model;
 
-namespace Seraphim.Storage;
+namespace Seraphim.Data;
 
 public class SeraphimContext : DbContext
 {

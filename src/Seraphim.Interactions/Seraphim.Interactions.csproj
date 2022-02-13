@@ -1,18 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DockerfileRunEnvironmentFiles>local.env</DockerfileRunEnvironmentFiles>
-        <DockerfileBuildArguments>--build-arg PROJECT_BUILD_CONFIGURATION=Debug</DockerfileBuildArguments>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <DockerfileBuildArguments>--build-arg PROJECT_BUILD_CONFIGURATION=Release</DockerfileBuildArguments>
-    </PropertyGroup>
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AzureFunctionsVersion>v4</AzureFunctionsVersion>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+    </PropertyGroup>
+    <PropertyGroup>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <OutputType>Library</OutputType>
+        <DockerfileRunArguments>--network seraphim --network-alias seraphiminteractions</DockerfileRunArguments>
+        <DockerfileRunEnvironmentFiles Condition="$(Configuration)=='Debug'">.env</DockerfileRunEnvironmentFiles>
+        <DockerfileBuildArguments Condition="$(Configuration)=='Debug'">--build-arg PROJECT_BUILD_CONFIGURATION=Debug</DockerfileBuildArguments>
     </PropertyGroup>
     <ItemGroup>
       <Content Include="host.json">

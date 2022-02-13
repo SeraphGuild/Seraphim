@@ -1,15 +1,16 @@
 FROM mcr.microsoft.com/azure-functions/dotnet:4 AS base
 WORKDIR /home/site/wwwroot
+ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
+ENV AzureWebJobsStorage=UseDevelopmentStorage=true
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS restore
 WORKDIR /src
-COPY Seraphim.Interactions/Seraphim.Interactions.csproj Seraphim.Interactions/
-RUN dotnet restore Seraphim.Interactions/Seraphim.Interactions.csproj
+COPY Seraphim.Interactions.csproj .
+RUN dotnet restore Seraphim.Interactions.csproj
 
 FROM restore AS build
 ARG PROJECT_BUILD_CONFIGURATION
-COPY Seraphim.Interactions/ Seraphim.Interactions/
-WORKDIR /src/Seraphim.Interactions
+COPY . .
 RUN dotnet build Seraphim.Interactions.csproj -c $PROJECT_BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Seraphim.Migrations
+namespace Seraphim.Data
 {
     public partial class InitialMigration : Migration
     {

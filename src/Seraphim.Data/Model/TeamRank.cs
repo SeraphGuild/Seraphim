@@ -1,4 +1,4 @@
-﻿namespace Seraphim.Model;
+﻿namespace Seraphim.Data;
 
 public enum TeamRank
 {
