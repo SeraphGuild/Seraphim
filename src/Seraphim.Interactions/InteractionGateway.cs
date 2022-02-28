@@ -37,6 +37,8 @@ public static class InteractionGateway
             }
 
             await DispatchRequest(request, logger);
+
+            logger.LogInformation("Successfully delegated application command to service bus topic");
             return new AcceptedResult();
         }
 
@@ -88,7 +90,7 @@ public static class InteractionGateway
 
         try
         {
-            logger.LogInformation($"Pushing application command into service bus: {JsonConvert.SerializeObject(serviceBusMessage)}");
+            logger.LogInformation($"Pushing application command into service bus topic. Command Name: {serviceBusMessage.ApplicationProperties["name"]}");
             await serviceBusSender.SendMessageAsync(serviceBusMessage);
         }
         catch (Exception ex)
@@ -106,7 +108,7 @@ public static class InteractionGateway
             ContentType = ContentType.ApplicationJson.ToString(),
         };
 
-        serviceBusMessage.ApplicationProperties.Add("Name", messageBody["data"]["name"].Value<string>());
+        serviceBusMessage.ApplicationProperties.Add("name", messageBody["data"]["name"].Value<string>());
         return serviceBusMessage;
     }
 }
