@@ -25,6 +25,14 @@ public static class InteractionGateway
     {
         static async Task<IActionResult> OnValid(JObject request, ILogger logger)
         {
+            if(request["type"].Value<int>() == 1)
+            {
+                return new OkObjectResult(new
+                {
+                    type = 1
+                });
+            }
+
             await DispatchRequest(request, logger);
             return new AcceptedResult();
         }
@@ -71,13 +79,6 @@ public static class InteractionGateway
 
     private static async Task DispatchRequest(JObject messageBody, ILogger logger)
     {
-
-        if (!messageBody.ContainsKey("Data"))
-        {
-            logger.LogInformation($"Payload does not contain application command data. Cannot proceed. Payload: {messageBody}");
-            return;
-        }
-
         string namespaceConnectionString = Environment.GetEnvironmentVariable("SERAPHIM_SERVICE_BUS_CONNECTION_STRING") ?? string.Empty;
         ServiceBusSender serviceBusSender = new ServiceBusClient(namespaceConnectionString).CreateSender(InteractionsTopicName);
         ServiceBusMessage serviceBusMessage = GetTopicMessage(messageBody);
