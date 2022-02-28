@@ -1,6 +1,6 @@
 .vs
 **/obj
 **/bin
-local.env
+*.env
 *.settings.json
 *.csproj.user
