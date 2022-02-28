@@ -8,7 +8,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
-
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Sodium;
 
@@ -25,8 +25,11 @@ public static class InteractionGateway
     {
         static async Task<IActionResult> OnValid(JObject request, ILogger logger)
         {
+            logger.LogInformation("Request validated. Prcoeeding.");
+
             if(request["type"].Value<int>() == 1)
             {
+                logger.LogInformation("Payload identified as a PING message. Short circuiting reply.");
                 return new OkObjectResult(new
                 {
                     type = 1
@@ -85,6 +88,7 @@ public static class InteractionGateway
 
         try
         {
+            logger.LogInformation($"Pushing application command into service bus: {JsonConvert.SerializeObject(serviceBusMessage)}");
             await serviceBusSender.SendMessageAsync(serviceBusMessage);
         }
         catch (Exception ex)
