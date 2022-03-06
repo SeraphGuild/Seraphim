@@ -9,11 +9,12 @@ namespace Seraphim.Interactions;
 
 public static class TestInteractionHandler
 {
-    const string DiscordApiBaseUrl = "https://discord.com/api/v9";
+    const string DiscordApiBaseUrl = "https://discord.com";
+    const string DiscordApiBasePath = "api/v9";
     const string BotClientIdEnvironmentVariableName = "BOT_CLIENT_ID";
     const string BotClientSecretEnvironmentVariableName = "BOT_CLIENT_SECRET";
 
-    [FunctionName("TestInteractionHandler")]
+    [FunctionName("Ping")]
     public static async Task Run(
         [ServiceBusTrigger(
             topicName: "interactions",
@@ -35,7 +36,7 @@ public static class TestInteractionHandler
     {
         JObject interaction = JObject.Parse(myQueueItem);
 
-        string interactionResponseUrl = $"{DiscordApiBaseUrl}/interactions/{interaction["id"].Value<string>()}/{interaction["token"].Value<string>()}/callback";
+        string interactionResponseUrl = $"{DiscordApiBaseUrl}/{DiscordApiBasePath}/interactions/{interaction["id"].Value<string>()}/{interaction["token"].Value<string>()}/callback";
         object interactionResponsePayload = new
         {
             type = 4,
@@ -57,21 +58,18 @@ public static class TestInteractionHandler
 
     private static async Task<string> GetBearerToken(HttpClient httpClient)
     {
-        object oauthPayload = new
+        UriBuilder uriBuilder = new UriBuilder(DiscordApiBaseUrl)
         {
-            grant_type = "client_credentials",
-            scope = "applications.commands applications.commands.update"
+            Path = $"{DiscordApiBasePath}/oauth2/token",
+            Query = "grant_type=client_credentials&scope=applications.commands applications.commands.update"
         };
 
-        HttpRequestMessage bearerTokenRequest = new HttpRequestMessage(HttpMethod.Post, $"{DiscordApiBaseUrl}/oauth2/token")
-        {
-            Content = new ObjectContent(typeof(object), oauthPayload, new JsonMediaTypeFormatter())
-        };
-
+        HttpRequestMessage bearerTokenRequest = new HttpRequestMessage(HttpMethod.Post, uriBuilder.Uri);
         bearerTokenRequest.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Environment.GetEnvironmentVariable(BotClientIdEnvironmentVariableName)}:{Environment.GetEnvironmentVariable(BotClientSecretEnvironmentVariableName)}")));
 
         HttpResponseMessage bearerTokenRespone = await httpClient.SendAsync(bearerTokenRequest);
-        return JObject.Parse(await bearerTokenRespone.Content.ReadAsStringAsync()).GetValue("access_token").Value<string>();
+        string content = await bearerTokenRespone.Content.ReadAsStringAsync();
+        return JObject.Parse(content).GetValue("access_token").Value<string>();
     }
 
     private static async Task<string> GetMessageContent(ILogger log, HttpClient httpClient)
