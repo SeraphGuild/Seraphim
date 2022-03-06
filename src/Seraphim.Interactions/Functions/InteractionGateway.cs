@@ -39,7 +39,10 @@ public static class InteractionGateway
             await DispatchRequest(request, logger);
 
             logger.LogInformation("Successfully delegated application command to service bus topic");
-            return new AcceptedResult();
+            return new OkObjectResult(new
+            {
+                type = 5
+            });
         }
 
         return await ValidateRequest(req) switch
