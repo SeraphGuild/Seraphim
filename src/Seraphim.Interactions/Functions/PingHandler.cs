@@ -35,6 +35,8 @@ public static class PingHandler
     {
         JObject interaction = JObject.Parse(myQueueItem);
 
+        log.LogInformation($"requst: {JsonConvert.SerializeObject(myQueueItem)}");
+
         string interactionResponseUrl = $"{DiscordApiBaseUrl}/{DiscordApiBasePath}/interactions/{interaction["id"].Value<string>()}/{interaction["token"].Value<string>()}/callback";
         object interactionResponsePayload = new
         {
@@ -64,7 +66,13 @@ public static class PingHandler
             throw;
         }
 
-        log.LogInformation(JsonConvert.SerializeObject(replyResponse));
+        log.LogInformation($"response: {JsonConvert.SerializeObject(replyResponse)}");
+
+        if (replyResponse.Content.Headers.ContentLength != 0)
+        {
+            JObject responseContent = JObject.Parse(await replyResponse.Content.ReadAsStringAsync());
+            log.LogInformation(JsonConvert.SerializeObject(responseContent));
+        }
 
         if (replyResponse.IsSuccessStatusCode == false)
         {
