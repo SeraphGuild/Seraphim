@@ -53,6 +53,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
+          context: ./src/Seraphim.${{ inputs.domain }}
           file: ./src/Seraphim.${{ inputs.domain }}/Dockerfile
           build-args: PROJECT_BUILD_CONFIGURATION=Release
           push: true
