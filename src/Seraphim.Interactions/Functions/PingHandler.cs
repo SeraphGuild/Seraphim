@@ -1,5 +1,6 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Seraphim.Interactions;
 
-public static class TestInteractionHandler
+public static class PingHandler
 {
     const string DiscordApiBaseUrl = "https://discord.com";
     const string DiscordApiBasePath = "api/v9";
@@ -27,12 +28,10 @@ public static class TestInteractionHandler
 
         string seraphimApiMessage = await GetMessageContent(log, httpClient);
         string bearerToken = await GetBearerToken(httpClient);
-        await RespondToInteraction(myQueueItem, httpClient, seraphimApiMessage, bearerToken);
-
-        log.LogInformation("Successfully sent message to discord");
+        await RespondToInteraction(httpClient, log, myQueueItem, seraphimApiMessage, bearerToken);
     }
 
-    private static async Task RespondToInteraction(string myQueueItem, HttpClient httpClient, string seraphimApiMessage, string bearerToken)
+    private static async Task RespondToInteraction(HttpClient httpClient, ILogger log, string myQueueItem, string seraphimApiMessage, string bearerToken)
     {
         JObject interaction = JObject.Parse(myQueueItem);
 
@@ -53,7 +52,28 @@ public static class TestInteractionHandler
 
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
 
-        await httpClient.SendAsync(request);
+        HttpResponseMessage replyResponse;
+
+        try
+        {
+            replyResponse = await httpClient.SendAsync(request);
+        }
+        catch (Exception ex)
+        {
+            log.LogError($"Failed to send interaction response to discord. ex: {ex}");
+            throw;
+        }
+
+        log.LogInformation(JsonConvert.SerializeObject(replyResponse));
+
+        if (replyResponse.IsSuccessStatusCode == false)
+        {
+            log.LogError("Failed to send message to discord");
+        }
+        else
+        {
+            log.LogInformation("Successfully sent message to discord");
+        }
     }
 
     private static async Task<string> GetBearerToken(HttpClient httpClient)
