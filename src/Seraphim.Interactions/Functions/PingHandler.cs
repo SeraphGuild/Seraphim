@@ -47,7 +47,7 @@ public static class PingHandler
             }
         };
 
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, interactionResponseUrl)
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, interactionResponseUrl)
         {
             Content = new ObjectContent(typeof(object), interactionResponsePayload, new JsonMediaTypeFormatter())
         };
