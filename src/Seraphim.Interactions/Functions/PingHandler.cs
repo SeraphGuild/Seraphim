@@ -40,11 +40,7 @@ public static class PingHandler
         string interactionResponseUrl = $"{DiscordApiBaseUrl}/{DiscordApiBasePath}/webhooks/{interaction["application_id"].Value<string>()}/{interaction["token"].Value<string>()}/messages/@original";
         object interactionResponsePayload = new
         {
-            type = 4,
-            data = new
-            {
-                content = seraphimApiMessage
-            }
+            content = seraphimApiMessage
         };
 
         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, interactionResponseUrl)
