@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Data", "Seraphim.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Interactions", "Seraphim.Interactions\Seraphim.Interactions.csproj", "{EB0D2F00-F0F2-408E-9D5F-CA159253F4D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seraphim.Discord", "Seraphim.Discord\Seraphim.Discord.csproj", "{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,10 +23,10 @@ Global
 		{EB0D2F00-F0F2-408E-9D5F-CA159253F4D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB0D2F00-F0F2-408E-9D5F-CA159253F4D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB0D2F00-F0F2-408E-9D5F-CA159253F4D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42F45AF3-AD0B-4B5A-B6C3-5E8A19D0D2D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42F45AF3-AD0B-4B5A-B6C3-5E8A19D0D2D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42F45AF3-AD0B-4B5A-B6C3-5E8A19D0D2D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42F45AF3-AD0B-4B5A-B6C3-5E8A19D0D2D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
