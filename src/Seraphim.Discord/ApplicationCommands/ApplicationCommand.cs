@@ -10,7 +10,7 @@ public class ApplicationCommand
 {
     /// <summary>
     ///     Initializes a new instance of the <see cref="ApplicationCommand"/> class. Provides
-    ///     default values for any optional fields
+    ///     default values for any optional fields.
     /// </summary>
     /// <param name="id">unique id of the command</param>
     /// <param name="applicationId">Tte unique id of the parent application</param>
