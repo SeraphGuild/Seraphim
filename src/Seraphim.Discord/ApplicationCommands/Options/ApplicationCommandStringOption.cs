@@ -24,17 +24,8 @@ public class ApplicationCommandStringOption : ApplicationCommandOption
         Autocomplete = autocomplete;
     }
 
-    /// <summary>
-    ///     Choices for <see cref="ApplicationCommandOptionType.STRING"/>, <see cref="ApplicationCommandOptionType.INTEGER"/>,
-    ///     or <see cref="ApplicationCommandOptionType.NUMBER"/> type options.
-    /// </summary>
     [MaxLength(25)]
     public IList<ApplicationCommandOptionStringChoice>? Choices { get; private set; }
 
-    /// <summary>
-    ///     Indicates if autocomplete interactions are enabled for this
-    ///     <see cref="ApplicationCommandOptionType.STRING"/>, <see cref="ApplicationCommandOptionType.INTEGER"/>,
-    ///     or <see cref="ApplicationCommandOptionType.NUMBER"/> type option.
-    /// </summary>
     public bool? Autocomplete { get; private set; }
 }

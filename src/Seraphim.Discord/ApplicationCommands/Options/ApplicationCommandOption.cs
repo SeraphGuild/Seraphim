@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Seraphim.Discord;
 
@@ -30,7 +30,7 @@ public class ApplicationCommandOption
     ///     The localization dictionary for the <see cref="Name"/> field.
     ///     Values follow the same restrictions and <see cref="Name"/>.
     /// </summary>
-    [JsonProperty("name_localizations")]
+    [JsonPropertyName("name_localizations")]
     public IDictionary<string, string>? NameLocalizations { get; private set; }
 
     [MaxLength(100)]
@@ -40,7 +40,7 @@ public class ApplicationCommandOption
     ///     The localization dictionary for the <see cref="Description"/> field.
     ///     Values follow the same restrictions and <see cref="Description"/>.
     /// </summary>
-    [JsonProperty("description_localizations")]
+    [JsonPropertyName("description_localizations")]
     public IDictionary<string, string>? DescriptionLocalizations { get; private set; }
 
     public bool? Required { get; private set; }

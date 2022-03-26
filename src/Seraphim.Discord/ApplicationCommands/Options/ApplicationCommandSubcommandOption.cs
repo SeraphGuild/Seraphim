@@ -20,9 +20,5 @@ public class ApplicationCommandSubcommandOption : ApplicationCommandOption
         Options = options;
     }
 
-    /// <summary>
-    ///     If the option is a <see cref="ApplicationCommandOptionType.SUB_COMMAND"/> or <see cref="ApplicationCommandOptionType.SUB_COMMAND_GROUP"/> type,
-    ///     these nested options will be the parameters
-    /// </summary>
     public IList<ApplicationCommandOption>? Options { get; private set; }
 }

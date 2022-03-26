@@ -1,8 +1,5 @@
 ﻿namespace Seraphim.Discord;
 
-/// <summary>
-///     Indicates the type of <see cref="ApplicationCommandOption"/>
-/// </summary>
 public enum ApplicationCommandOptionType
 {
     SUB_COMMAND = 1,

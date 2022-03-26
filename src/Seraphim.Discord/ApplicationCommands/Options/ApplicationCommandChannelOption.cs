@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Seraphim.Discord;
 
@@ -23,9 +23,8 @@ public class ApplicationCommandChannelOption : ApplicationCommandOption
     }
 
     /// <summary>
-    ///     If the option is a <see cref="ApplicationCommandOptionType.CHANNEL"/> type, the channels
-    ///     shown will be restricted these types.
+    ///     The list of <see cref="ChannelType"/>s the option will be restricted to.
     /// </summary>
-    [JsonProperty("channel_types")]
+    [JsonPropertyName("channel_types")]
     public IList<ChannelType>? ChannelTypes { get; private set; }
 }

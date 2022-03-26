@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Seraphim.Discord;
 
@@ -29,31 +29,14 @@ public class ApplicationCommandIntegerOption : ApplicationCommandOption
         Autocomplete = autocomplete;
     }
 
-    /// <summary>
-    ///     Choices for <see cref="ApplicationCommandOptionType.STRING"/>, <see cref="ApplicationCommandOptionType.INTEGER"/>,
-    ///     or <see cref="ApplicationCommandOptionType.NUMBER"/> type options.
-    /// </summary>
     [MaxLength(25)]
     public IList<ApplicationCommandOptionIntegerChoice>? Choices { get; private set; }
 
-    /// <summary>
-    ///     The minimum value permitted for the option if it's types is either
-    ///     <see cref="ApplicationCommandOptionType.INTEGER"/> or <see cref="ApplicationCommandOptionType.DOUBLE"/>
-    /// </summary>
-    [JsonProperty("min_value")]
+    [JsonPropertyName("min_value")]
     public int? MinValue { get; private set; }
 
-    /// <summary>
-    ///     The maximum value permitted for the option if it's types is either
-    ///     <see cref="ApplicationCommandOptionType.INTEGER"/> or <see cref="ApplicationCommandOptionType.DOUBLE"/>
-    /// </summary>
-    [JsonProperty("max_value")]
+    [JsonPropertyName("max_value")]
     public int? MaxValue { get; private set; }
 
-    /// <summary>
-    ///     Indicates if autocomplete interactions are enabled for this
-    ///     <see cref="ApplicationCommandOptionType.STRING"/>, <see cref="ApplicationCommandOptionType.INTEGER"/>,
-    ///     or <see cref="ApplicationCommandOptionType.NUMBER"/> type option.
-    /// </summary>
     public bool? Autocomplete { get; private set; }
 }
