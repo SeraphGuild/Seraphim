@@ -6,7 +6,7 @@ namespace Seraphim.Discord;
 
 internal class DiscordClient : IDiscordClient
 {
-    private const string BaseUrlFormat = "https://www.discord.com/api/v{0}";
+    private const string BaseUrlFormat = "https://www.discord.com/api/v{0}/";
 
     private readonly HttpClient httpClient;
 
@@ -27,38 +27,21 @@ internal class DiscordClient : IDiscordClient
         this.oAuthToken = new OAuthToken();
     }
 
-    public async Task<HttpResponseMessage> SendAsync<T>(string apiPath, HttpMethod method, T body)
+    public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage)
     {
-        if (this.oAuthToken.IsValid)
-        {
-            this.oAuthToken = await FetchOAuthToken();
-        }
-
-        HttpRequestMessage httpRequestMessage = BuildRequest(apiPath, method, body);
+        OAuthToken authToken = await FetchOAuthToken();
+        httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue(authToken.TokenType, authToken.AccessToken);
 
         return await this.httpClient.SendAsync(httpRequestMessage);
     }
 
-    private HttpRequestMessage BuildRequest<T>(string apiPath, HttpMethod method, T body)
-    {
-        UriBuilder uriBuilder = new UriBuilder(baseUrl)
-        {
-            Path = apiPath
-        };
-
-        HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
-        {
-            RequestUri = uriBuilder.Uri,
-            Method = method,
-            Content = new StringContent(JsonSerializer.Serialize<T>(body)),
-        };
-
-        httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue(this.oAuthToken.TokenType, this.oAuthToken.AccessToken);
-        return httpRequestMessage;
-    }
-
     private async Task<OAuthToken> FetchOAuthToken()
     {
+        if (this.oAuthToken?.IsValid ?? false)
+        {
+            return this.oAuthToken;
+        }
+
         UriBuilder uriBuilder = new UriBuilder(baseUrl)
         {
             Path = "oauth2/token"
@@ -78,6 +61,7 @@ internal class DiscordClient : IDiscordClient
         HttpResponseMessage responseMessage = await this.httpClient.SendAsync(bearerTokenRequest);
 
         string responseContent = await responseMessage.Content.ReadAsStringAsync();
-        return JsonSerializer.Deserialize<OAuthToken>(responseContent) ?? new OAuthToken();
+        this.oAuthToken = JsonSerializer.Deserialize<OAuthToken>(responseContent) ?? new OAuthToken();
+        return this.oAuthToken;
     }
 }
