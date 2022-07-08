@@ -5,22 +5,20 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     </PropertyGroup>
-    <PropertyGroup>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <DockerfileRunArguments>--network seraphim --network-alias seraphiminteractions</DockerfileRunArguments>
-        <DockerfileRunEnvironmentFiles Condition="$(Configuration)=='Debug'">.env</DockerfileRunEnvironmentFiles>
-        <DockerfileBuildArguments Condition="$(Configuration)=='Debug'">--build-arg PROJECT_BUILD_CONFIGURATION=Debug</DockerfileBuildArguments>
-    </PropertyGroup>
-    <ItemGroup>
-      <Content Include="host.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.5.1" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="4.3.0" />
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
         <PackageReference Include="Sodium.Core" Version="1.2.3" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="host.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="local.settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+      </None>
     </ItemGroup>
 </Project>
