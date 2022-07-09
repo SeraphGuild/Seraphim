@@ -13,5 +13,5 @@ jobs:
       domain: Repository
       webAppName: srphm-repo-usce-as-dev
     secrets:
-      appSettings: ${{ secrets.REPO_APP_SETTINGS }}
+      appSettings: ${{ secrets.REPOSITORY_APP_SETTINGS }}
       azureCreds: ${{ secrets.AZURE_CREDENTIALS }}
