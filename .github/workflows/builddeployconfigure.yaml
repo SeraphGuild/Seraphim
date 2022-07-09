@@ -36,7 +36,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Dotnet Build
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --source ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/Seraphim.${{ inputs.domain }}
 
       - name: Dotnet Publish
         run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package/Seraphim.${{ inputs.domain }}
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: seraphim.${{ inputs.domain }}
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package/src/Seraphim.${{ inputs.domain }}
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package/Seraphim.${{ inputs.domain }}
 
 
   deploy:
