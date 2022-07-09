@@ -13,5 +13,5 @@ jobs:
       domain: Interactions
       webAppName: srphm-interact-usce-func-dev
     secrets:
-      appSettings: ${{ secrets.ACK_APP_SETTINGS }}
+      appSettings: ${{ secrets.INTERACTIONS_APP_SETTINGS }}
       azureCreds: ${{ secrets.AZURE_CREDENTIALS }}
