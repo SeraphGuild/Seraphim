@@ -1,4 +1,4 @@
-name: Deploy Seraphim.Data
+name: Deploy Seraphim.Repository
 
 on:
   workflow_dispatch:
@@ -10,9 +10,8 @@ jobs:
   builddeployconfigure:
     uses: SeraphGuild/Seraphim/.github/workflows/builddeployconfigure.yaml@main
     with:
-      domain: Data
-      webAppName: srphm-data-usce-as-dev
+      domain: Repository
+      webAppName: srphm-repo-usce-as-dev
     secrets:
       appSettings: ${{ secrets.DATA_APP_SETTINGS }}
-      containerRegistryPassword: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
       azureCreds: ${{ secrets.AZURE_CREDENTIALS }}

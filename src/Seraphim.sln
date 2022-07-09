@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Data", "Seraphim.Data\Seraphim.Data.csproj", "{8F6B7FDB-8DFD-45A2-9F64-2297FF70FD15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Repository", "Seraphim.Repository\Seraphim.Repository.csproj", "{8F6B7FDB-8DFD-45A2-9F64-2297FF70FD15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Interactions", "Seraphim.Interactions\Seraphim.Interactions.csproj", "{EB0D2F00-F0F2-408E-9D5F-CA159253F4D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Discord", "Seraphim.Discord\Seraphim.Discord.csproj", "{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Test", "Seraphim.Test\Seraphim.Test.csproj", "{B6C0B6DD-3565-4390-A803-D742C6508A2E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seraphim.NoDockerFunction", "Seraphim.NoDockerFunction\Seraphim.NoDockerFunction.csproj", "{5191670C-D779-46B4-A76A-7CFBA94AE801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{B6C0B6DD-3565-4390-A803-D742C6508A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6C0B6DD-3565-4390-A803-D742C6508A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6C0B6DD-3565-4390-A803-D742C6508A2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5191670C-D779-46B4-A76A-7CFBA94AE801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5191670C-D779-46B4-A76A-7CFBA94AE801}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5191670C-D779-46B4-A76A-7CFBA94AE801}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5191670C-D779-46B4-A76A-7CFBA94AE801}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

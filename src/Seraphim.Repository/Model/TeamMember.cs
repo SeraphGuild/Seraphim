@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Seraphim.Data;
+namespace Seraphim.Repository;
 
 [Table("TeamMember")]
 [Owned]

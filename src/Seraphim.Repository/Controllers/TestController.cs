@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Seraphim.Data;
+namespace Seraphim.Repository;
 
 [ApiController]
 [Route("[controller]")]

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Seraphim.Data;
+namespace Seraphim.Repository;
 
 [ApiController]
 [Route("[controller]")]

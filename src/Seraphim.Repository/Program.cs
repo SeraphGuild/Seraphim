@@ -3,7 +3,7 @@ using Azure.Security.KeyVault.Secrets;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-using Seraphim.Data;
+using Seraphim.Repository;
 
 const string SqlServerPasswordName = "SeraphimSqlAdminPassword";
 

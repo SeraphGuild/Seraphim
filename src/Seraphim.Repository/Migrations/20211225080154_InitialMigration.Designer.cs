@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Seraphim.Data
+namespace Seraphim.Repository
 {
     [DbContext(typeof(SeraphimContext))]
     [Migration("20211225080154_InitialMigration")]

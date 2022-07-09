@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 #nullable disable
 
-namespace Seraphim.Data
+namespace Seraphim.Repository
 {
     [DbContext(typeof(SeraphimContext))]
     partial class SeraphimContextModelSnapshot : ModelSnapshot
