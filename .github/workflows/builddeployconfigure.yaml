@@ -1,7 +1,7 @@
 name: Build Deploy and Configure App Service
 
 env:
-  AZURE_WEBAPP_PACKAGE_PATH: '.' 
+  AZURE_WEBAPP_PACKAGE_PATH: './Seraphim/src' 
   DOTNET_VERSION: '6.0.x'
 
 on:
@@ -36,7 +36,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Dotnet Build
-        run: dotnet build --configuration Release --source ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/src/Seraphim.${{ inputs.domain }}/Seraphim.${{ inputs.domain }}.csproj
+        run: dotnet build --configuration Release --source ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/Seraphim.${{ inputs.domain }}/Seraphim.${{ inputs.domain }}.csproj
 
       - name: Dotnet Publish
         run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package/Seraphim.${{ inputs.domain }}
