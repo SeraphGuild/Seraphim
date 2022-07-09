@@ -1,7 +1,7 @@
 name: Build Deploy and Configure App Service
 
 env:
-  AZURE_WEBAPP_PACKAGE_PATH: './Seraphim/src' 
+  AZURE_WEBAPP_PACKAGE_PATH: './src' 
   DOTNET_VERSION: '6.0.x'
 
 on:
@@ -36,7 +36,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Current Directory Contents
-        run: ls
+        run: ls ./src
 
       - name: Dotnet Build
         run: dotnet build --configuration Release --source ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/Seraphim.${{ inputs.domain }}/Seraphim.${{ inputs.domain }}.csproj
