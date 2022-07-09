@@ -1,7 +1,6 @@
 name: Build Deploy and Configure App Service
 
 env:
-  AZURE_WEBAPP_PACKAGE_PATH: './src' 
   DOTNET_VERSION: '6.0.x'
 
 on:
@@ -35,20 +34,17 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Current Directory Contents
-        run: ls ./src
-
       - name: Dotnet Build
-        run: dotnet build --configuration Release --source ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/Seraphim.${{ inputs.domain }}/Seraphim.${{ inputs.domain }}.csproj
+        run: dotnet build --configuration Release ./src/Seraphim.${{ inputs.domain }}/Seraphim.${{ inputs.domain }}.csproj
 
       - name: Dotnet Publish
-        run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package/Seraphim.${{ inputs.domain }}
+        run: dotnet publish -c Release -o ./package/Seraphim.${{ inputs.domain }} ./src/Seraphim.${{ inputs.domain }}/Seraphim.${{ inputs.domain }}.csproj
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: seraphim.${{ inputs.domain }}
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/package/Seraphim.${{ inputs.domain }}
+          path: ./package/Seraphim.${{ inputs.domain }}
 
 
   deploy:
