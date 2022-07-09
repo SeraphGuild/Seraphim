@@ -98,8 +98,8 @@ public static class PingHandler
 
     private static async Task<string> GetMessageContent(ILogger log, HttpClient httpClient)
     {
-        string? SeraphimDataUrl = Environment.GetEnvironmentVariable("SERAPHIM_DATA_URL");
-        string seraphimApiUrl = $"{SeraphimDataUrl}/Test";
+        string? SeraphimRepoUrl = Environment.GetEnvironmentVariable("SERAPHIM_REPO_URL");
+        string seraphimApiUrl = $"{SeraphimRepoUrl}/Test";
         HttpRequestMessage seraphimApiRequest = new HttpRequestMessage(HttpMethod.Get, seraphimApiUrl);
 
         HttpResponseMessage seraphimApiResponse;
