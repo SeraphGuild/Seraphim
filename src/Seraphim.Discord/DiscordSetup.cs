@@ -2,7 +2,7 @@
 
 namespace Seraphim.Discord;
 
-public static class DiscordRegistration
+public static class DiscordSetup
 {
     public static void Register(IServiceCollection container)
     {
