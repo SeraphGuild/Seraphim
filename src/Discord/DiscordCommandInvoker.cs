@@ -11,17 +11,16 @@ internal class DiscordCommandInvoker : IDiscordCommandInvoker
         this.commandExecutorProvider = commandExecutorProvider;
     }
 
-    public Fin<TResult> Invoke<TCommand, TResult>(TCommand command) where TCommand : ICommand<TResult>
+    public Task<Fin<TResult>> InvokeAsync<TResult>(ICommand<TResult> command)
     {
-        Type executorInterfaceType = typeof(ICommandExecutor<,>).MakeGenericType(typeof(TCommand), typeof(TResult));
-        ICommandExecutor<TCommand, TResult>? commandExecutor =
-            commandExecutorProvider.GetService(executorInterfaceType) as ICommandExecutor<TCommand, TResult>;
+        Type executorInterfaceType = typeof(ICommandExecutor<,>).MakeGenericType(command.GetType(), typeof(TResult));
+        dynamic? commandExecutor = commandExecutorProvider.GetService(executorInterfaceType);
 
         if (commandExecutor == null)
         {
-            return new ExceptionalDiscordErrors.NoKnownCommandExecutorError();
+            return Task.FromResult((Fin<TResult>)new ExceptionalDiscordError.NoKnownCommandExecutorError());
         }
 
-        return commandExecutor.Execute(command);
+        return commandExecutor.ExecuteAsync((dynamic)command);
     }
 }
