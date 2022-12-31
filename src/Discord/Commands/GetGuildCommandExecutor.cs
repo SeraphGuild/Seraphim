@@ -1,12 +1,20 @@
-﻿using LanguageExt;
-using LanguageExt.Common;
+﻿using Discord.API;
+using Discord.Core.Commands;
+using LanguageExt;
 
-namespace Discord;
+namespace Discord.Core;
 
 internal class GetGuildCommandExecutor : ICommandExecutor<GetGuildCommand, Guild>
 {
-    public Task<Fin<Guild>> ExecuteAsync(GetGuildCommand command)
+    private readonly IGuildClient guildClient;
+    
+    public GetGuildCommandExecutor(IGuildClient guildClient)
     {
-        return Task.FromResult((Fin<Guild>)Error.New("test"));
+        this.guildClient = guildClient;
+    }
+
+    public async Task<Fin<Guild>> ExecuteAsync(GetGuildCommand command)
+    {
+        return await this.guildClient.GetGuildAsync(command.Id);
     }
 }

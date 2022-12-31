@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Seraphim.Discord;
+namespace Discord.API;
 
 /// <summary>
 ///     A unique id provided by discord applications and APIs

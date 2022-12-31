@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Seraphim.Discord;
+namespace Discord.API;
 internal class DiscordResponseMessage
 {
     private readonly HttpResponseMessage response;
@@ -12,7 +12,7 @@ internal class DiscordResponseMessage
 
     public async Task<T> ReadBody<T>()
     {
-        Stream bodyStreamContent = await this.response.Content.ReadAsStreamAsync();
-        return (await JsonDocument.ParseAsync(bodyStreamContent)).Deserialize<T>();
+        string bodyStreamContent = await this.response.Content.ReadAsStringAsync();
+        return JsonDocument.Parse(bodyStreamContent).Deserialize<T>()!;
     }
 }

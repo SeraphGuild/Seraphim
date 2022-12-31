@@ -1,6 +1,6 @@
 ﻿using LanguageExt;
 
-namespace Discord;
+namespace Discord.Core.Commands;
 
 internal interface ICommandExecutor<TCommand, TResult> where TCommand : ICommand<TResult>
 {

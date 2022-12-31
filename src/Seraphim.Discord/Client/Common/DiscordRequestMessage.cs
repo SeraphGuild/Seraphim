@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace Seraphim.Discord;
+namespace Discord.API;
 
 internal class DiscordRequestMessage
 {
@@ -31,7 +31,7 @@ internal class DiscordRequestMessage
 
     public DiscordRequestMessage SetPath(string path)
     {
-        this.uriBuilder.Path = path;
+        this.uriBuilder.Path = "api/v10/" + path;
         return this;
     }
 
@@ -54,8 +54,14 @@ internal class DiscordRequestMessage
             throw new InvalidOperationException("Cannot send request before HTTP method and Uri path have been set");
         }
 
-        this.uriBuilder.Query = this.queryParameters.ToString();
-        HttpRequestMessage request = new HttpRequestMessage(this.method, this.uriBuilder.Uri);
+        if (this.queryParameters.Count > 0)
+        {
+            this.uriBuilder.Query = this.queryParameters.ToString();
+        }
+
+        this.uriBuilder.Scheme = "https";
+        this.uriBuilder.Host = "discord.com";
+        HttpRequestMessage request = new(this.method, this.uriBuilder.Uri);
 
         if (this.body != null)
         {

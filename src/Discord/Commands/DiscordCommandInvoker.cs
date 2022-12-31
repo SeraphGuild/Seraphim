@@ -1,6 +1,7 @@
-﻿using LanguageExt;
+﻿using Discord.Core.Errors;
+using LanguageExt;
 
-namespace Discord;
+namespace Discord.Core.Commands;
 
 internal class DiscordCommandInvoker : IDiscordCommandInvoker
 {

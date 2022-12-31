@@ -1,4 +1,4 @@
-﻿namespace Discord;
+﻿namespace Discord.Core;
 
 public enum ExplicitContentFilterLevel
 {

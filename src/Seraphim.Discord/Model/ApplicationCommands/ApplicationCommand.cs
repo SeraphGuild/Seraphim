@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Seraphim.Discord;
+namespace Discord.API;
 
 [JsonConverter(typeof(ApplicationCommandJsonConverter))]
 public class ApplicationCommand

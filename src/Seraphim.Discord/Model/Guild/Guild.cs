@@ -1,49 +1,54 @@
-﻿namespace Discord;
+﻿using Discord.API;
+using System.Text.Json.Serialization;
+
+namespace Discord.Core;
 
 public class Guild
 {
-    internal Guild(
+    [JsonConstructor]
+    public Guild(
         Snowflake id,
         string name,
         string? icon,
         string? iconHash,
         string? splash,
         string? discovertySplash,
-        bool owner,
+        bool? owner,
         Snowflake ownerId,
-        string permissions,
+        string? permissions,
         string? region,
         Snowflake? AFKChannelId,
-        int aFKTimeout,
-        bool widgetEnabled,
+        int? aFKTimeout,
+        bool? widgetEnabled,
         Snowflake? widgetChannelId,
-        VerificationLevel verificationLevel,
-        DefaultMessageNotificationLevel defaultMessageNotifications,
-        ExplicitContentFilterLevel explicitContentFilter,
+        VerificationLevel? verificationLevel,
+        DefaultMessageNotificationLevel? defaultMessageNotifications,
+        ExplicitContentFilterLevel? explicitContentFilter,
         Role[] roles,
         Emojis[] emojis,
         GuildFeature[] features,
-        MFALevel MFALevel,
+        MFALevel? MFALevel,
         Snowflake? applicationId,
         Snowflake? systemChannelId,
-        SystemChannelFlags systemChannelFlags,
+        SystemChannelFlags? systemChannelFlags,
         Snowflake? rulesChannelId,
         int? maxPresences,
-        int maxMembers,
+        int? maxMembers,
         string? vanityUrlCode,
         string? description,
         string? banner,
-        PremiumTier premiumTier,
-        int premiumSubscriptionCount,
-        string preferredLocale,
+        PremiumTier? premiumTier,
+        int? premiumSubscriptionCount,
+        string? preferredLocale,
         Snowflake? publicUpdatesChannelId,
-        int maxVideoChannelUsers,
-        int approximateMemberCount,
-        int approximatePresenceCount,
-        WelcomeScreen welcomeScreen,
-        GuildNSFWLevel NSFWLevel,
+        int? maxVideoChannelUsers,
+        int? approximateMemberCount,
+        int? approximatePresenceCount,
+        WelcomeScreen? welcomeScreen,
+        bool? NSFW,
+        GuildNSFWLevel? NSFWLevel,
         Sticker[] stickers,
-        bool premiumProgressBarEnabled)
+        bool? premiumProgressBarEnabled)
     {
         Id = id;
         Name = name;
@@ -83,6 +88,7 @@ public class Guild
         ApproximateMemberCount = approximateMemberCount;
         ApproximatePresenceCount = approximatePresenceCount;
         WelcomeScreen = welcomeScreen;
+        NSFW = NSFW;
         this.NSFWLevel = NSFWLevel;
         Stickers = stickers;
         PremiumProgressBarEnabled = premiumProgressBarEnabled;
@@ -100,28 +106,28 @@ public class Guild
 
     public string? DiscovertySplash { get; }
 
-    public bool Owner { get; }
+    public bool? Owner { get; }
 
     public Snowflake OwnerId { get; }
 
-    public string Permissions { get; }
+    public string? Permissions { get; }
 
     [Obsolete]
     public string? Region { get; }
 
     public Snowflake? AFKChannelId { get; }
 
-    public int AFKTimeout { get; }
+    public int? AFKTimeout { get; }
 
-    public bool WidgetEnabled { get; }
+    public bool? WidgetEnabled { get; }
 
     public Snowflake? WidgetChannelId { get; }
 
-    public VerificationLevel VerificationLevel { get; }
+    public VerificationLevel? VerificationLevel { get; }
 
-    public DefaultMessageNotificationLevel DefaultMessageNotifications { get; }
+    public DefaultMessageNotificationLevel? DefaultMessageNotifications { get; }
 
-    public ExplicitContentFilterLevel ExplicitContentFilter { get; }
+    public ExplicitContentFilterLevel? ExplicitContentFilter { get; }
 
     public Role[] Roles { get; }
 
@@ -129,19 +135,19 @@ public class Guild
 
     public GuildFeature[] Features { get; }
 
-    public MFALevel MFALevel { get; }
+    public MFALevel? MFALevel { get; }
 
     public Snowflake? ApplicationId { get; }
 
     public Snowflake? SystemChannelId { get; }
 
-    public SystemChannelFlags SystemChannelFlags { get; }
+    public SystemChannelFlags? SystemChannelFlags { get; }
 
     public Snowflake? RulesChannelId { get; }
 
     public int? MaxPresences { get; }
 
-    public int MaxMembers { get; }
+    public int? MaxMembers { get; }
 
     public string? VanityUrlCode { get; }
 
@@ -149,27 +155,29 @@ public class Guild
 
     public string? Banner { get; }
 
-    public PremiumTier PremiumTier { get; }
+    public PremiumTier? PremiumTier { get; }
 
-    public int PremiumSubscriptionCount { get; }
+    public int? PremiumSubscriptionCount { get; }
 
-    public string PreferredLocale { get; }
+    public string? PreferredLocale { get; }
 
     public Snowflake? PublicUpdatesChannelId { get; }
 
-    public int MaxVideoChannelUsers { get; }
+    public int? MaxVideoChannelUsers { get; }
 
-    public int ApproximateMemberCount { get; }
+    public int? ApproximateMemberCount { get; }
 
-    public int ApproximatePresenceCount { get; }
+    public int? ApproximatePresenceCount { get; }
 
-    public WelcomeScreen WelcomeScreen { get; }
+    public WelcomeScreen? WelcomeScreen { get; }
 
-    public GuildNSFWLevel NSFWLevel { get; }
+    public bool? NSFW { get; }
+
+    public GuildNSFWLevel? NSFWLevel { get; }
 
     public Sticker[] Stickers { get; }
 
-    public bool PremiumProgressBarEnabled { get; }
+    public bool? PremiumProgressBarEnabled { get; }
 
     public Task<Channel[]> GetGuildChannels()
     {

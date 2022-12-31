@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Discord;
+namespace Discord.Core;
 
 [JsonConverter(typeof(SystemChannelFlagsJsonConverter))]
 public class SystemChannelFlags

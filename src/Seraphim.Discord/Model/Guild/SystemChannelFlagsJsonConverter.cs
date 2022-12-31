@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Discord;
+namespace Discord.Core;
 
 internal class SystemChannelFlagsJsonConverter : JsonConverter<SystemChannelFlags>
 {

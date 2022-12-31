@@ -1,4 +1,6 @@
-﻿using Discord;
+﻿using Discord.API;
+using Discord.Core;
+using Discord.Core.Commands;
 using LanguageExt;
 using LanguageExt.Common;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,12 +12,13 @@ IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
 IDiscordCommandInvoker commandInvoker = serviceProvider.GetRequiredService<IDiscordCommandInvoker>();
 
-GetGuildCommand command = new(new Snowflake("1234567890"));
+GetGuildCommand command = new(new Snowflake("535354246715932682"));
 Fin<Guild> result = await commandInvoker.InvokeAsync(command);
 
 if (result.IsSucc)
 {
-    Console.WriteLine("Hello World");
+    Guild guild = (Guild)result;
+    Console.WriteLine(guild.Name);
     return;
 }
 

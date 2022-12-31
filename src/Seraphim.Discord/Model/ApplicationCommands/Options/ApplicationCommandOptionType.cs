@@ -1,4 +1,4 @@
-﻿namespace Seraphim.Discord;
+﻿namespace Discord.API;
 
 public enum ApplicationCommandOptionType
 {

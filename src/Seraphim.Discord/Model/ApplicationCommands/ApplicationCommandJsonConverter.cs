@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Seraphim.Discord;
+namespace Discord.API;
 
 internal class ApplicationCommandJsonConverter : JsonConverter<ApplicationCommand>
 {

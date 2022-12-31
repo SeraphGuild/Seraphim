@@ -1,6 +1,6 @@
 ﻿using LanguageExt;
 
-namespace Discord;
+namespace Discord.Core.Commands;
 
 public interface IDiscordCommandInvoker
 {

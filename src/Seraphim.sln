@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Repository", "Sera
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Interactions", "Seraphim.Interactions\Seraphim.Interactions.csproj", "{EB0D2F00-F0F2-408E-9D5F-CA159253F4D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Discord", "Seraphim.Discord\Seraphim.Discord.csproj", "{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.API", "Seraphim.Discord\Discord.API.csproj", "{2D2F599E-DF04-457C-B4CF-4CFCBFB46DF5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seraphim.Test", "Seraphim.Test\Seraphim.Test.csproj", "{B6C0B6DD-3565-4390-A803-D742C6508A2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord", "Discord\Discord.csproj", "{B3119A0A-C5B5-436A-A1B2-36AA0B64413C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Core", "Discord\Discord.Core.csproj", "{B3119A0A-C5B5-436A-A1B2-36AA0B64413C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{ED307757-BC25-4C4D-A2D6-9E9716F0F41C}"
 EndProject

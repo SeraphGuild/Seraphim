@@ -1,4 +1,7 @@
-﻿namespace Discord;
+﻿using Discord.API;
+using Discord.Core.Commands;
+
+namespace Discord.Core;
 
 public class GetGuildCommand : ICommand<Guild>
 {

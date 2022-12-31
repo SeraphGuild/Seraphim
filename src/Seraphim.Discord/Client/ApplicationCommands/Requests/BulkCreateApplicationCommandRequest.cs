@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Seraphim.Discord;
+namespace Discord.API;
 
 public class BulkCreateApplicationCommandRequest : CreateApplicationCommandRequest
 {

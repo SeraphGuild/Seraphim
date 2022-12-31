@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Seraphim.Discord;
+namespace Discord.API;
 
 public class ApplicationCommandOptionStringChoice
 {
