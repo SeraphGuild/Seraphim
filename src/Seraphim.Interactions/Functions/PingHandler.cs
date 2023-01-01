@@ -6,7 +6,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Seraphim.Interactions;
+namespace Seraphim.Interactions.Handlers;
 
 public static class PingHandler
 {
@@ -24,7 +24,7 @@ public static class PingHandler
         string myQueueItem, 
         ILogger log)
     {
-        HttpClient httpClient = new HttpClient();
+        HttpClient httpClient = new();
 
         string seraphimApiMessage = await GetMessageContent(log, httpClient);
         string bearerToken = await GetBearerToken(httpClient);
@@ -43,7 +43,7 @@ public static class PingHandler
             content = seraphimApiMessage
         };
 
-        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Patch, interactionResponseUrl)
+        HttpRequestMessage request = new(HttpMethod.Patch, interactionResponseUrl)
         {
             Content = new ObjectContent(typeof(object), interactionResponsePayload, new JsonMediaTypeFormatter())
         };
@@ -82,13 +82,13 @@ public static class PingHandler
 
     private static async Task<string> GetBearerToken(HttpClient httpClient)
     {
-        UriBuilder uriBuilder = new UriBuilder(DiscordApiBaseUrl)
+        UriBuilder uriBuilder = new(DiscordApiBaseUrl)
         {
             Path = $"{DiscordApiBasePath}/oauth2/token",
             Query = "grant_type=client_credentials&scope=applications.commands applications.commands.update"
         };
 
-        HttpRequestMessage bearerTokenRequest = new HttpRequestMessage(HttpMethod.Post, uriBuilder.Uri);
+        HttpRequestMessage bearerTokenRequest = new(HttpMethod.Post, uriBuilder.Uri);
         bearerTokenRequest.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Environment.GetEnvironmentVariable(BotClientIdEnvironmentVariableName)}:{Environment.GetEnvironmentVariable(BotClientSecretEnvironmentVariableName)}")));
 
         HttpResponseMessage bearerTokenRespone = await httpClient.SendAsync(bearerTokenRequest);
@@ -100,7 +100,7 @@ public static class PingHandler
     {
         string? SeraphimRepoUrl = Environment.GetEnvironmentVariable("SERAPHIM_REPO_URL");
         string seraphimApiUrl = $"{SeraphimRepoUrl}/Test";
-        HttpRequestMessage seraphimApiRequest = new HttpRequestMessage(HttpMethod.Get, seraphimApiUrl);
+        HttpRequestMessage seraphimApiRequest = new(HttpMethod.Get, seraphimApiUrl);
 
         HttpResponseMessage seraphimApiResponse;
 

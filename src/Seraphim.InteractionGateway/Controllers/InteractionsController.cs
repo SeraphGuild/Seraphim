@@ -1,58 +1,61 @@
-using System.Text;
 using Azure.Core;
 using Azure.Messaging.ServiceBus;
-
-using Microsoft.AspNetCore.Http;
+using LanguageExt;
+using LanguageExt.Common;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json.Linq;
 using Sodium;
+using System.Text;
 
-namespace Seraphim.Interactions;
+namespace Seraphim.InteractionGateway.Controllers;
 
-public static class InteractionGateway
+[ApiController]
+[Route("[controller]")]
+public class InteractionsController : ControllerBase
 {
+    private readonly ILogger<InteractionsController> logger;
+
     const string InteractionsTopicName = "interactions";
 
-    [FunctionName("Gateway")]
-    public static async Task<IActionResult> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
-        ILogger logger)
+    public InteractionsController(ILogger<InteractionsController> logger)
     {
-        static async Task<IActionResult> OnValid(JObject request, ILogger logger)
+        this.logger = logger;
+    }
+
+    [HttpGet(Name = "Gateway")]
+    public async Task<IActionResult> Get(HttpRequest req)
+    {
+        Fin<JObject> result = await ValidateRequest(req);
+
+        if (result.IsFail)
         {
-            logger.LogInformation("Request validated. Prcoeeding.");
+            return new UnauthorizedResult();
+        }
 
-            if(request["type"].Value<int>() == 1)
-            {
-                logger.LogInformation("Payload identified as a PING message. Short circuiting reply.");
-                return new OkObjectResult(new
-                {
-                    type = 1
-                });
-            }
+        JObject validationRequestBody = (JObject)result;
 
-            await DispatchRequest(request, logger);
+        logger.LogInformation("Request validated. Prcoeeding.");
 
-            logger.LogInformation("Successfully delegated application command to service bus topic");
+        if (validationRequestBody["type"].Value<int>() == 1)
+        {
+            logger.LogInformation("Payload identified as a PING message. Short circuiting reply.");
             return new OkObjectResult(new
             {
-                type = 5
+                type = 1
             });
         }
 
-        return await ValidateRequest(req) switch
+        await DispatchRequest(validationRequestBody, logger);
+
+        logger.LogInformation("Successfully delegated application command to service bus topic");
+        return new OkObjectResult(new
         {
-            InteractionSignatureValidationResult.Success success => await OnValid(success.MessageBody, logger),
-            InteractionSignatureValidationResult.Failure => new UnauthorizedResult(),
-            _ => new UnauthorizedResult()
-        };
+            type = 5
+        });
     }
 
-    private static async Task<InteractionSignatureValidationResult> ValidateRequest(HttpRequest req)
+    private static async Task<Fin<JObject>> ValidateRequest(HttpRequest req)
     {
         string BotPublicKey = Environment.GetEnvironmentVariable("BOT_PUBLIC_KEY") ?? string.Empty;
 
@@ -70,18 +73,18 @@ public static class InteractionGateway
                     Encoding.UTF8.GetBytes(timestamp + requestBody),
                     Convert.FromHexString(BotPublicKey));
             }
-            catch
+            catch(Exception ex)
             {
-                return new InteractionSignatureValidationResult.Failure();
+                return Error.New(ex);
             }
 
             if (isValid)
             {
-                return new InteractionSignatureValidationResult.Success(JObject.Parse(requestBody));
+                return JObject.Parse(requestBody);
             }
         }
 
-        return new InteractionSignatureValidationResult.Failure();
+        return new Expected($"The given cryptographic signatures could not be verified", 0);
     }
 
     private static async Task DispatchRequest(JObject messageBody, ILogger logger)
@@ -105,7 +108,7 @@ public static class InteractionGateway
     private static ServiceBusMessage GetTopicMessage(JObject messageBody)
     {
         BinaryData payload = BinaryData.FromString(messageBody.ToString());
-        ServiceBusMessage serviceBusMessage = new ServiceBusMessage(payload)
+        ServiceBusMessage serviceBusMessage = new(payload)
         {
             ContentType = ContentType.ApplicationJson.ToString(),
         };
